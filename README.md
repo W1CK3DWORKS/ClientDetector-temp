@@ -44,5 +44,4 @@ ClientDetector uses the PacketEvents API. Check it out here: https://github.com/
 * All Forge Mods from 1.8 - 1.17.1 (with some limitations)
 
 ### Contributors
-<a href="https://github.com/Sportkanone123/ClientDetector/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=Sportkanone123/ClientDetector" />
+<a href="[https://github.com/Sportkanone123/ClientDetector/graphs/contributors](https://github.com/Loving11ish/ClientDetector/graphs/contributors)">
