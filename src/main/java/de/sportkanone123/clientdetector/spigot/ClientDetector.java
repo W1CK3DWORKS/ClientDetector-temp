@@ -187,7 +187,9 @@ public class ClientDetector extends JavaPlugin {
 
         HandlerList.unregisterAll(this);
 
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &aShutdown complete!"));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
     }
 
     public boolean isFloodgateEnabled() {
