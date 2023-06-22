@@ -18,9 +18,7 @@
 
 package de.sportkanone123.clientdetector.spigot.clientcontrol;
 
-import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.clientcontrol.impl.*;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

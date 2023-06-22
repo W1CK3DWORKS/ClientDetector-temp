@@ -23,9 +23,7 @@ import de.sportkanone123.clientdetector.spigot.manager.GeyserManager;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClientDetectorAPI {
     public static String getPlayerClient(Player player){

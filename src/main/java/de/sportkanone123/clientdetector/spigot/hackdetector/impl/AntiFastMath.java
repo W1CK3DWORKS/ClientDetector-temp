@@ -24,6 +24,7 @@
 
 package de.sportkanone123.clientdetector.spigot.hackdetector.impl;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.manager.ConfigManager;
 import org.bukkit.Bukkit;
@@ -32,13 +33,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class AntiFastMath {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     static HashMap<Player, Double> vanillaPrecision = new HashMap<>();
     static HashMap<Player, Double> fastMathPrecision = new HashMap<>();
     static HashMap<Player, Integer> playerSamples = new HashMap<>();
@@ -83,8 +86,7 @@ public class AntiFastMath {
 
                         if(ConfigManager.getConfig("config").getBoolean("hackdetector.antifastmath.enablePunishment")){
                             if(!player.hasPermission("clientdetector.bypass")){
-                                BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-                                scheduler.runTask(ClientDetector.plugin, () -> {
+                                foliaLib.getImpl().runNextTick(() -> {
                                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("config").getString("hackdetector.antifastmath.punishCommand").replace("%prefix%", ConfigManager.getConfig("message").getString("prefix")).replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString())));
                                 });
                             }

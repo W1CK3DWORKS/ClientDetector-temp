@@ -18,6 +18,7 @@
 
 package de.sportkanone123.clientdetector.spigot.mod.processor;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.api.events.ModDetectedEvent;
 import de.sportkanone123.clientdetector.spigot.manager.AlertsManager;
@@ -30,6 +31,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class PacketProcessor {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     public static void handlePacket(Player player, String channel, byte[] data){
         byte[] customData = new String(data, StandardCharsets.UTF_8).replace("(Velocity)", "").getBytes(StandardCharsets.UTF_8);
 
@@ -41,11 +45,8 @@ public class PacketProcessor {
 
                     ClientDetector.playerMods.get(player.getUniqueId()).add(mod.getModName());
 
-                    Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable(){
-                        @Override
-                        public void run() {
-                            Bukkit.getPluginManager().callEvent(new ModDetectedEvent(player, mod.getModName()));
-                        }
+                    foliaLib.getImpl().runAsync(() -> {
+                        Bukkit.getPluginManager().callEvent(new ModDetectedEvent(true, player, mod.getModName()));
                     });
 
                     AlertsManager.handleModlistDetection(player, mod.getModName());

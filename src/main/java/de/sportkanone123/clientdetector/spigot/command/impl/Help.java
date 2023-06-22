@@ -18,7 +18,6 @@
 
 package de.sportkanone123.clientdetector.spigot.command.impl;
 
-import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

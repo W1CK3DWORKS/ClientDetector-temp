@@ -28,6 +28,13 @@ public class ForgeModlistDetectedEvent extends Event {
     private final Player player;
     private final ModList modlist;
 
+    public ForgeModlistDetectedEvent(boolean isAsync, Player player, ModList modlist) {
+        super(isAsync);
+        this.player = player;
+        this.modlist = modlist;
+    }
+
+    @Deprecated
     public ForgeModlistDetectedEvent(Player player, ModList modlist) {
         this.modlist = modlist;
         this.player = player;

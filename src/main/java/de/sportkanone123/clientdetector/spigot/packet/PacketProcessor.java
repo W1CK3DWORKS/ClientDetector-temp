@@ -16,15 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.sportkanone123.clientdetector.spigot.packet.processor;
+package de.sportkanone123.clientdetector.spigot.packet;
 
 import com.github.retrooper.packetevents.event.simple.PacketLoginReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPluginMessage;
 import org.bukkit.entity.Player;
-
-import java.nio.charset.StandardCharsets;
 
 public class PacketProcessor {
 

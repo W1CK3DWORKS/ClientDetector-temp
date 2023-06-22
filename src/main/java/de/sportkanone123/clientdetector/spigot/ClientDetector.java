@@ -20,6 +20,7 @@ package de.sportkanone123.clientdetector.spigot;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.bungee.BungeeManager;
 import de.sportkanone123.clientdetector.spigot.client.Client;
 import de.sportkanone123.clientdetector.spigot.clientcontrol.ClientControl;
@@ -33,10 +34,13 @@ import de.sportkanone123.clientdetector.spigot.listener.PluginMessageListener;
 import de.sportkanone123.clientdetector.spigot.manager.*;
 import de.sportkanone123.clientdetector.spigot.mod.Mod;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.geysermc.floodgate.api.FloodgateApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +49,10 @@ import java.util.UUID;
 
 
 public class ClientDetector extends JavaPlugin {
+
     public static Plugin plugin;
+    public static FoliaLib foliaLib;
+    private static FloodgateApi floodgateApi;
     public static ArrayList<Client> CLIENTS = new ArrayList<Client>();
     public static ArrayList<Mod> MODS = new ArrayList<Mod>();
 
@@ -53,6 +60,7 @@ public class ClientDetector extends JavaPlugin {
     public static HashMap<UUID, ModList> forgeMods = new HashMap<UUID, ModList>();
     public static HashMap<UUID, String> playerClient = new HashMap<UUID, String> ();
     public static HashMap<UUID, String> clientVersion = new HashMap<UUID, String> ();
+    public static HashMap<UUID, String> connectedBedrockPlayers = new HashMap<>();
     public static HashMap<UUID, ArrayList<String>> playerMods = new HashMap<UUID, ArrayList<String>> ();
     public static HashMap<UUID, ArrayList<String>> playerLabymodMods = new HashMap<UUID, ArrayList<String>> ();
     public static HashMap<UUID, ArrayList<String>> playerCommandsQueue = new HashMap<UUID, ArrayList<String>>();
@@ -71,11 +79,16 @@ public class ClientDetector extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        foliaLib = new FoliaLib((JavaPlugin) plugin);
+
+        if (foliaLib.isSpigot()||foliaLib.isUnsupported()){
+            PaperLib.suggestPaper(this);
+        }
 
         new MetricsManager(this, 10745);
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aDetected Version &c" + PacketEvents.getAPI().getServerManager().getVersion().name()));
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aLoading settings for Version &c" + PacketEvents.getAPI().getServerManager().getVersion().name()));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aDetected Version &c" + Bukkit.getVersion()));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aLoading settings for Version &c" + Bukkit.getVersion()));
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aProtocol&7) &aLoading protocols..."));
         PacketEvents.getAPI().getEventManager().registerListener(new NetworkListener());
@@ -125,6 +138,11 @@ public class ClientDetector extends JavaPlugin {
             bungeeManager = new BungeeManager();
         }
 
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("floodgate")||isFloodgateEnabled()){
+            floodgateApi = FloodgateApi.getInstance();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aFloodgateAPI&7) &aDetected FloodgateAPI " + Bukkit.getPluginManager().getPlugin("floodgate").getDescription().getVersion()));
+        }
+
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("ViaVersion")){
             Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aViaVersion&7) &aDetected ViaVersion " + Bukkit.getPluginManager().getPlugin("ViaVersion").getDescription().getVersion()));
         }
@@ -166,5 +184,26 @@ public class ClientDetector extends JavaPlugin {
 
         ClientManager.unLoad();
         ModManager.unLoad();
+
+        HandlerList.unregisterAll(this);
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &aShutdown complete!"));
+    }
+
+    public boolean isFloodgateEnabled() {
+        try {
+            Class.forName("org.geysermc.floodgate.api.FloodgateApi");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static FloodgateApi getFloodgateApi() {
+        return floodgateApi;
+    }
+
+    public static FoliaLib getFoliaLib() {
+        return foliaLib;
     }
 }

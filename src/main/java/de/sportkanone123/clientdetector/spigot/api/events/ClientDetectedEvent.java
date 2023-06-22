@@ -27,6 +27,13 @@ public class ClientDetectedEvent extends Event {
     private final Player player;
     private final String client;
 
+    public ClientDetectedEvent(boolean isAsync, Player player, String client) {
+        super(isAsync);
+        this.player = player;
+        this.client = client;
+    }
+
+    @Deprecated
     public ClientDetectedEvent(Player player, String client) {
         this.client = client;
         this.player = player;

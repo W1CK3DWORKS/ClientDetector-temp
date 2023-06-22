@@ -18,8 +18,9 @@
 
 package de.sportkanone123.clientdetector.spigot.command;
 
-import de.sportkanone123.clientdetector.spigot.ClientDetector;
-import de.sportkanone123.clientdetector.spigot.command.impl.*;
+import de.sportkanone123.clientdetector.spigot.command.impl.Forge;
+import de.sportkanone123.clientdetector.spigot.command.impl.Help;
+import de.sportkanone123.clientdetector.spigot.command.impl.Player;
 import de.sportkanone123.clientdetector.spigot.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,7 +37,7 @@ public class Command implements CommandExecutor {
                     String prefix = ConfigManager.getConfig("message").getString("prefix");
 
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m-------&7" + prefix + "&7&m-------&7"));
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("message").getString("prefix") + " &7ClientDetector(" + Bukkit.getServer().getPluginManager().getPlugin("ClientDetector").getDescription().getVersion() + ") by Sportkanone123"));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("message").getString("prefix") + " &7ClientDetector(" + Bukkit.getServer().getPluginManager().getPlugin("ClientDetector").getDescription().getVersion() + ") by Sportkanone123 & Loving11ish"));
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m-------&7" + prefix + "&7&m-------&7"));
 
                     return false;
@@ -47,7 +48,7 @@ public class Command implements CommandExecutor {
                 String prefix = ConfigManager.getConfig("message").getString("prefix");
 
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m-------&7" + prefix + "&7&m-------&7"));
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("message").getString("prefix") + " &7ClientDetector(" + Bukkit.getServer().getPluginManager().getPlugin("ClientDetector").getDescription().getVersion() + ") by Sportkanone123"));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("message").getString("prefix") + " &7ClientDetector(" + Bukkit.getServer().getPluginManager().getPlugin("ClientDetector").getDescription().getVersion() + ") by Sportkanone123 & Loving11ish"));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m-------&7" + prefix + "&7&m-------&7"));
             }else{
                 if(args[0].equalsIgnoreCase("help")) {

@@ -24,6 +24,7 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientLoginStart;
 import com.github.retrooper.packetevents.wrapper.login.client.WrapperLoginClientPluginResponse;
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.api.events.ForgeModlistDetectedEvent;
 import de.sportkanone123.clientdetector.spigot.bungee.DataType;
@@ -43,6 +44,7 @@ public class ForgeHandler {
     static HashMap<Object, String> channelToName = new HashMap<>();
     static HashMap<String, ModList> nameToModlist = new HashMap<>();
 
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
 
     public static void handle(PacketLoginReceiveEvent event){
         if(ConfigManager.getConfig("config").getBoolean("forge.enableNewerVersionDetection")){
@@ -75,10 +77,10 @@ public class ForgeHandler {
             for(String forgeMod : nameToModlist.get(player.getName()).getMods())
                 de.sportkanone123.clientdetector.spigot.forgemod.ForgeHandler.handleDetection(player, forgeMod);
 
-            Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable(){
+            foliaLib.getImpl().runAsync(new Runnable() {
                 @Override
                 public void run() {
-                    Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(player, nameToModlist.get(player.getName())));
+                    Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(true, player, nameToModlist.get(player.getName())));
                 }
             });
         }

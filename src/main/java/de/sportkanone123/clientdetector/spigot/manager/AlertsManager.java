@@ -18,19 +18,27 @@
 
 package de.sportkanone123.clientdetector.spigot.manager;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.api.events.ClientDetectedEvent;
 import de.sportkanone123.clientdetector.spigot.bungee.DataType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.spigotmc.SpigotConfig;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class AlertsManager {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+    private static FileConfiguration spigot;
+
     public static List<Player> disabledNotifications = new ArrayList<Player>();
     public static boolean limitedNotifications = true;
     public static boolean crossServerNotifications = false;
@@ -41,24 +49,28 @@ public class AlertsManager {
     public static void load(){
         limitedNotifications = ConfigManager.getConfig("config").getBoolean("alerts.limitNotifications");
         crossServerNotifications = ConfigManager.getConfig("config").getBoolean("alerts.crossServerNotifications");
+
+        try {
+            File spigotFile = new File(Bukkit.getServer().getWorldContainer().getAbsolutePath().replace(".", "spigot.yml"));
+            spigot = YamlConfiguration.loadConfiguration(spigotFile);
+        }catch (Exception e){
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&4ERROR&7) &cSpigot.yml file not found!"));
+        }
     }
 
     public static void handleClientDetection(Player player){
         if(!firstDetection.contains(player.getUniqueId())){
             firstDetection.add(player.getUniqueId());
 
-            int waitTicks = 4;
-            if(SpigotConfig.bungee) waitTicks = 100;
+            long waitTicks = 200; //4 ticks
+            if (spigot.getBoolean("settings.bungeecord")) waitTicks = 5000; //100 ticks
 
-            Bukkit.getScheduler().runTaskLater(ClientDetector.plugin, () -> {
+            foliaLib.getImpl().runLater(() -> {
                 if(ClientDetector.playerClient.get(player.getUniqueId()) != null)
                     ClientManager.handleDetection(player, ClientDetector.playerClient.get(player.getUniqueId()));
 
-                Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable(){
-                    @Override
-                    public void run() {
-                        Bukkit.getPluginManager().callEvent(new ClientDetectedEvent(player, ClientDetector.playerClient.get(player.getUniqueId())));
-                    }
+                foliaLib.getImpl().runAsync(() -> {
+                    Bukkit.getPluginManager().callEvent(new ClientDetectedEvent(true, player, ClientDetector.playerClient.get(player.getUniqueId())));
                 });
 
                 if(ClientDetector.playerClient.get(player.getUniqueId()) != null){
@@ -102,7 +114,7 @@ public class AlertsManager {
                         sendCrossServer(player, ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("message").getString("detection.clientdetectionmessagewithoutversion").replace("%prefix%", ConfigManager.getConfig("message").getString("prefix")).replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()).replace("%client_name%", "Vanilla (Undetectable)")));
                     }
                 }
-            }, waitTicks);
+            }, waitTicks, TimeUnit.MILLISECONDS);
         }
     }
 

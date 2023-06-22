@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import com.tcoded.folialib.FoliaLib;
+import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -27,6 +29,9 @@ import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
 public class MetricsManager {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     static {
         // You can use the property to disable the check in your test environment
         if (System.getProperty("bstats.relocatecheck") == null || !System.getProperty("bstats.relocatecheck").equals("false")) {
@@ -181,7 +186,7 @@ public class MetricsManager {
             }
             // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the Bukkit scheduler
             // Don't be afraid! The connection to the bStats server is still async, only the stats collection is sync ;)
-            Bukkit.getScheduler().runTask(plugin, this::submitData);
+            foliaLib.getImpl().runNextTick(this::submitData);
         };
 
         // Many servers tend to restart at a fixed time at xx:00 which causes an uneven distribution of requests on the

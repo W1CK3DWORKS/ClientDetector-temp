@@ -22,8 +22,7 @@ import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import com.github.retrooper.packetevents.event.SimplePacketListenerAbstract;
 import com.github.retrooper.packetevents.event.simple.PacketLoginReceiveEvent;
 import com.github.retrooper.packetevents.event.simple.PacketPlayReceiveEvent;
-import de.sportkanone123.clientdetector.spigot.packet.processor.PacketProcessor;
-
+import de.sportkanone123.clientdetector.spigot.packet.PacketProcessor;
 
 public class NetworkListener extends SimplePacketListenerAbstract {
 

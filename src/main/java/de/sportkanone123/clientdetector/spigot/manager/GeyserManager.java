@@ -18,12 +18,12 @@
 
 package de.sportkanone123.clientdetector.spigot.manager;
 
-import com.github.retrooper.packetevents.PacketEvents;
+import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import org.bukkit.entity.Player;
 
 public class GeyserManager {
+
     public static boolean isBedrockPlayer(Player player){
-        //ToDo
-        return false;
+        return ClientDetector.connectedBedrockPlayers.containsKey(player.getUniqueId());
     }
 }

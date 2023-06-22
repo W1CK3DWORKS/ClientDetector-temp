@@ -19,7 +19,9 @@
 package de.sportkanone123.clientdetector.spigot.listener;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
+import de.sportkanone123.clientdetector.spigot.api.events.BedrockPlayerDetectedEvent;
 import de.sportkanone123.clientdetector.spigot.forgemod.legacy.ForgeHandshake;
 import de.sportkanone123.clientdetector.spigot.hackdetector.HackDetector;
 import de.sportkanone123.clientdetector.spigot.hackdetector.impl.ChatExploit;
@@ -37,8 +39,19 @@ import java.util.List;
 
 public class PlayerListener implements Listener {
 
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     @EventHandler
     public static void onJoin(PlayerJoinEvent event) {
+
+        if (ClientDetector.getFloodgateApi() != null){
+            if (ClientDetector.getFloodgateApi().isFloodgatePlayer(event.getPlayer().getUniqueId())){
+                ClientDetector.connectedBedrockPlayers.put(event.getPlayer().getUniqueId(), event.getPlayer().getName());
+                foliaLib.getImpl().runAsync(() -> {
+                   Bukkit.getPluginManager().callEvent(new BedrockPlayerDetectedEvent(true, event.getPlayer(), event.getPlayer().getUniqueId()));
+                });
+            }
+        }
 
         if (ClientDetector.plugin.getConfig().getBoolean("forge.simulateForgeHandshake") && !ClientDetector.forgeMods.containsKey(event.getPlayer().getUniqueId()))
             ForgeHandshake.sendHandshake(event.getPlayer());
@@ -66,11 +79,8 @@ public class PlayerListener implements Listener {
             List<String> toRemove = new ArrayList<>();
             for (String string : ClientDetector.playerCommandsQueue.get(event.getPlayer().getUniqueId())) {
                 toRemove.add(string);
-                Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), string);
-                    }
+                foliaLib.getImpl().runNextTick(() -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), string);
                 });
             }
             ClientDetector.playerCommandsQueue.get(event.getPlayer().getUniqueId()).removeAll(toRemove);
@@ -88,6 +98,7 @@ public class PlayerListener implements Listener {
             ClientDetector.mcVersion.remove(event.getPlayer().getUniqueId());
             ClientDetector.clientVersion.remove(event.getPlayer().getUniqueId());
             AlertsManager.firstDetection.remove(event.getPlayer().getUniqueId());
+            ClientDetector.connectedBedrockPlayers.remove(event.getPlayer().getUniqueId());
         }
 
         if(event.getQuitMessage() != null && !event.getQuitMessage().isEmpty())

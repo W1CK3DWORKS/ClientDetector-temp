@@ -18,29 +18,31 @@
 
 package de.sportkanone123.clientdetector.spigot.forgemod;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
-import de.sportkanone123.clientdetector.spigot.api.events.ClientDetectedEvent;
-import de.sportkanone123.clientdetector.spigot.bungee.DataType;
-import de.sportkanone123.clientdetector.spigot.client.Client;
 import de.sportkanone123.clientdetector.spigot.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ForgeHandler {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     public static void handlePluginMessage(Player player, String channel, byte[] data){
         if(channel.equalsIgnoreCase("FML|HS") || channel.equalsIgnoreCase("l:fmlhs") || (channel.equalsIgnoreCase("minecraft:brand") && new String(data).contains("forge")) || (channel.equalsIgnoreCase("MC|Brand") && new String(data).contains("forge"))){
             if(ConfigManager.getConfig("config").getBoolean("forge.blockForge")){
                 if(!player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("forge.whitelistedPlayers")).contains(player.getName())){
                     if(player.isOnline()){
-                        Bukkit.getScheduler().runTaskLater(ClientDetector.plugin, new Runnable(){
+                        foliaLib.getImpl().runLater(new Runnable() {
                             @Override
                             public void run() {
                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("forge.punishCommandForge").replace("%player_name%", player.getName()));
                             }
-                        }, 10l);
+                        }, 500L, TimeUnit.MILLISECONDS);
                     }else{
                         if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
                             ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
@@ -58,12 +60,12 @@ public class ForgeHandler {
                 List<String> whitelist = (ArrayList<String>) ClientDetector.plugin.getConfig().get("forge.whitelistedMods");
                 if(!whitelist.contains(mod) && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ClientDetector.plugin.getConfig().get("forge.whitelistedPlayers")).contains(player.getName())){
                     if(player.isOnline()){
-                        Bukkit.getScheduler().runTaskLater(ClientDetector.plugin, new Runnable(){
+                        foliaLib.getImpl().runLater(new Runnable() {
                             @Override
                             public void run() {
                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ClientDetector.plugin.getConfig().getString("forge.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
                             }
-                        }, 10l);
+                        }, 500L, TimeUnit.MILLISECONDS);
                     }else{
                         if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
                             ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
@@ -79,12 +81,12 @@ public class ForgeHandler {
                 List<String> blacklist = (ArrayList<String>) ClientDetector.plugin.getConfig().get("forge.blacklistedMods");
                 if(blacklist.contains(mod) && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ClientDetector.plugin.getConfig().get("forge.whitelistedPlayers")).contains(player.getName())){
                     if(player.isOnline()){
-                        Bukkit.getScheduler().runTaskLater(ClientDetector.plugin, new Runnable(){
+                        foliaLib.getImpl().runLater(new Runnable() {
                             @Override
                             public void run() {
                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ClientDetector.plugin.getConfig().getString("forge.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
                             }
-                        }, 10l);
+                        }, 500L, TimeUnit.MILLISECONDS);
                     }else{
                         if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
                             ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());

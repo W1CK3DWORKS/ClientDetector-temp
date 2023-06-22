@@ -27,6 +27,13 @@ public class ModDetectedEvent extends Event {
     private final Player player;
     private final String modName;
 
+    public ModDetectedEvent(boolean isAsync, Player player, String modName) {
+        super(isAsync);
+        this.player = player;
+        this.modName = modName;
+    }
+
+    @Deprecated
     public ModDetectedEvent(Player player, String modName) {
         this.modName = modName;
         this.player = player;

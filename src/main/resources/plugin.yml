@@ -1,10 +1,11 @@
 name: ClientDetector
-version: 2.5.5
-author: Sportkanone123
+version: 2.5.7
+authors: [ Sportkanone123, Loving11ish ]
 main: de.sportkanone123.clientdetector.spigot.ClientDetector
 description: A simple plugin to detect and manage a player's client/mods
 load: POSTWORLD
 api-version: 1.13
+folia-supported: true
 
 softdepend: [PlaceholderAPI, ProtocolLib, ViaVersion]
 

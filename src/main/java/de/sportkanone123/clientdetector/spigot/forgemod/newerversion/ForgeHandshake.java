@@ -19,7 +19,6 @@
 package de.sportkanone123.clientdetector.spigot.forgemod.newerversion;
 
 import com.github.retrooper.packetevents.PacketEvents;
-import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.wrapper.login.server.WrapperLoginServerPluginRequest;
 
 public class ForgeHandshake {

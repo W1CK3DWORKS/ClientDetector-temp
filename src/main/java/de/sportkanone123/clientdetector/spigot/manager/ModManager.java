@@ -18,6 +18,7 @@
 
 package de.sportkanone123.clientdetector.spigot.manager;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.bungee.DataType;
 import de.sportkanone123.clientdetector.spigot.mod.Mod;
@@ -28,8 +29,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class ModManager {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
 
     public static void load(){
         ClientDetector.MODS.add(new Mod(Arrays.asList("5zig_Set", "l:5zig_set", "the5zigmod:5zig_set"), Arrays.asList(""), "5zig Mod", true));
@@ -52,12 +56,9 @@ public class ModManager {
                 List<String> whitelist = (ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedMods");
                 if ((!whitelist.contains(mod) && !whitelist.contains(mod.toLowerCase(Locale.ROOT))) && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())) {
                     if(player.isOnline()){
-                        Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
-                            }
-                        });
+                        foliaLib.getImpl().runLater(() -> {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                        }, 200L, TimeUnit.MILLISECONDS);
                     }else{
                         if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
                             ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
@@ -73,12 +74,9 @@ public class ModManager {
                 List<String> blacklist = (ArrayList<String>) ClientDetector.plugin.getConfig().get("mods.blacklistedMods");
                 if((blacklist.contains(mod) || blacklist.contains(mod.toLowerCase(Locale.ROOT)))  && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())){
                     if(player.isOnline()){
-                        Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
-                            }
-                        });
+                        foliaLib.getImpl().runLater(() -> {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                        }, 200L, TimeUnit.MILLISECONDS);
                     }else{
                         if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
                             ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());

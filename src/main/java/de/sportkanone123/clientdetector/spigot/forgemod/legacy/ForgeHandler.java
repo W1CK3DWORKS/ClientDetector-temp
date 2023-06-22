@@ -18,6 +18,7 @@
 
 package de.sportkanone123.clientdetector.spigot.forgemod.legacy;
 
+import com.tcoded.folialib.FoliaLib;
 import de.sportkanone123.clientdetector.spigot.ClientDetector;
 import de.sportkanone123.clientdetector.spigot.api.events.ForgeModlistDetectedEvent;
 import de.sportkanone123.clientdetector.spigot.bungee.DataType;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ForgeHandler {
+
+    private static FoliaLib foliaLib = ClientDetector.getFoliaLib();
+
     public static void handle(Player player, String channel, byte[] data){
         if(ConfigManager.getConfig("config").getBoolean("forge.enableLegacyDetection")){
             if(channel.equalsIgnoreCase("FML|HS") && data != null && data[0] == 2){
@@ -41,10 +45,10 @@ public class ForgeHandler {
                 for(String forgeMod : getModList(data).getMods())
                     de.sportkanone123.clientdetector.spigot.forgemod.ForgeHandler.handleDetection(player, forgeMod);
 
-                Bukkit.getScheduler().runTask(ClientDetector.plugin, new Runnable(){
+                foliaLib.getImpl().runAsync(new Runnable() {
                     @Override
                     public void run() {
-                        Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(player, getModList(data)));
+                        Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(true, player, getModList(data)));
                     }
                 });
             }
