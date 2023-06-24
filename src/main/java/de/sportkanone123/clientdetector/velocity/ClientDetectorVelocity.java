@@ -10,6 +10,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import net.md_5.bungee.api.ChatColor;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -51,6 +52,13 @@ public class ClientDetectorVelocity {
         this.server.getChannelRegistrar().register(LEGACY_BUNGEE_CHANNEL, MODERN_BUNGEE_CHANNEL);
 
         runQueue();
+
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aDetected Version &c" + server.getVersion()));
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aLoading Velocity adapter..."));
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aRegistering plugin messaging channels..."));
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &aStarted!"));
+        logger.info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
     }
 
     public void runQueue() {
@@ -73,7 +81,7 @@ public class ClientDetectorVelocity {
 
     @Subscribe
     public void onPluginMessage(PluginMessageEvent event) {
-        System.out.println(event.getIdentifier() + " // " + new java.lang.String(event.getData()));
+        logger.info(event.getIdentifier() + " // " + new java.lang.String(event.getData()));
         if (event.getIdentifier().getId().equalsIgnoreCase("cd:bungee")) {
             sync(event.getData());
         }

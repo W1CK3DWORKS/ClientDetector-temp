@@ -18,6 +18,7 @@
 
 package de.sportkanone123.clientdetector.bungeecord;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -43,6 +44,13 @@ public class ClientDetectorBungee extends Plugin implements Listener {
         ProxyServer.getInstance().registerChannel("cd:bungee");
 
         runQueue();
+
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aDetected Version &c" + ProxyServer.getInstance().getVersion()));
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aLoading Bungee adapter..."));
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aRegistering plugin messaging channels..."));
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &aStarted!"));
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
     }
 
     public void runQueue() {

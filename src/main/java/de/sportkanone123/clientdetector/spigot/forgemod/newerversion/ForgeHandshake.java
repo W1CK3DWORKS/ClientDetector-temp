@@ -20,12 +20,17 @@ package de.sportkanone123.clientdetector.spigot.forgemod.newerversion;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.wrapper.login.server.WrapperLoginServerPluginRequest;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 public class ForgeHandshake {
     public static void sendModList(Object channel){
 
-        WrapperLoginServerPluginRequest wrappedPacketLoginOutCustomPayload = new WrapperLoginServerPluginRequest(/*Random ID*/111111, "fml:handshake", new byte[] { 1, 0, 0, 0 });
-        PacketEvents.getAPI().getPlayerManager().sendPacket(channel, wrappedPacketLoginOutCustomPayload);
-
+        try {
+            WrapperLoginServerPluginRequest wrappedPacketLoginOutCustomPayload = new WrapperLoginServerPluginRequest(/*Random ID*/111111, "fml:handshake", new byte[] { 1, 0, 0, 0 });
+            PacketEvents.getAPI().getPlayerManager().sendPacket(channel, wrappedPacketLoginOutCustomPayload);
+        }catch (ClassCastException e){
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
+        }
     }
 }

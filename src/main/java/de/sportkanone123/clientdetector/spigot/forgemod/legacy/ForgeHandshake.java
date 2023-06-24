@@ -23,6 +23,8 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPluginMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class ForgeHandshake {
@@ -69,10 +71,14 @@ public class ForgeHandshake {
     }
 
     public static void sendHandshake(Player player){
-        if(PacketEvents.getAPI().getServerManager().getVersion().isOlderThanOrEquals(ServerVersion.V_1_12_2) && (PacketEvents.getAPI().getPlayerManager().getClientVersion(player).isNewerThanOrEquals(ClientVersion.V_1_8) && PacketEvents.getAPI().getPlayerManager().getClientVersion(player).isOlderThanOrEquals(ClientVersion.V_1_12_2))){
-            sendHandshakeReset(player, "FML|HS");
-            sendServerHello(player, "FML|HS");
-            sendModList(player, "FML|HS");
+        try {
+            if(PacketEvents.getAPI().getServerManager().getVersion().isOlderThanOrEquals(ServerVersion.V_1_12_2) && (PacketEvents.getAPI().getPlayerManager().getClientVersion(player).isNewerThanOrEquals(ClientVersion.V_1_8) && PacketEvents.getAPI().getPlayerManager().getClientVersion(player).isOlderThanOrEquals(ClientVersion.V_1_12_2))){
+                sendHandshakeReset(player, "FML|HS");
+                sendServerHello(player, "FML|HS");
+                sendModList(player, "FML|HS");
+            }
+        }catch (ClassCastException e){
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
         }
     }
 }
