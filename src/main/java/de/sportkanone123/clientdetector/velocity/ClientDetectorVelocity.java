@@ -10,7 +10,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.md_5.bungee.api.ChatColor;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -24,7 +23,7 @@ import java.util.logging.Logger;
 @com.velocitypowered.api.plugin.Plugin(
         id = "clientdetector",
         name = "ClientDetector",
-        version = "2.5.7",
+        version = "2.5.8",
         description = "A simple plugin to detect and manage a player's client/mods",
         authors = {"Sportkanone123", "Loving11ish"}
 )
@@ -53,12 +52,12 @@ public class ClientDetectorVelocity {
 
         runQueue();
 
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aVersion&7) &aDetected Version &c" + server.getVersion()));
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aLoading Velocity adapter..."));
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] (&aDetection&7) &aRegistering plugin messaging channels..."));
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &aStarted!"));
-        logger.info(ChatColor.translateAlternateColorCodes('&', "&7-----------------------------------------"));
+        logger.info("-----------------------------------------");
+        logger.info("[ClientDetector] (Version) Detected Version " + server.getVersion());
+        logger.info("[ClientDetector] (Detection) Loading Velocity adapter...");
+        logger.info("[ClientDetector] (Detection) Registering plugin messaging channels...");
+        logger.info("[ClientDetector] Started!");
+        logger.info("-----------------------------------------");
     }
 
     public void runQueue() {
