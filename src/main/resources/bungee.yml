@@ -1,5 +1,5 @@
 name: ClientDetector
-version: 2.5.8
+version: '${project.version}'
 author: Loving11ish
 main: de.sportkanone123.clientdetector.bungeecord.ClientDetectorBungee
 description: A simple plugin to detect and manage a player's client/mods

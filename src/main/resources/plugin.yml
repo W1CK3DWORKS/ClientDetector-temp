@@ -1,5 +1,5 @@
 name: ClientDetector
-version: 2.5.8
+version: '${project.version}'
 authors: [ Sportkanone123, Loving11ish ]
 main: de.sportkanone123.clientdetector.spigot.ClientDetector
 description: A simple plugin to detect and manage a player's client/mods
@@ -11,7 +11,27 @@ softdepend: [PlaceholderAPI, ProtocolLib, ViaVersion]
 
 commands:
   clientdetector:
-    aliases: cd
+    description: The main command that accesses all other commands for the plugin.
+    permission: clientdetector.command
+    aliases:
+      - cd
   client:
+    description: The command to access the client based commands.
+    permission: clientdetector.command
   forge:
+    description: The command to access the Forge based commands.
+    permission: clientdetector.command
   mods:
+    description: The command to access the mods based commands.
+    permission: clientdetector.command
+
+permissions:
+  clientdetector.*:
+    default: op
+    children:
+      clientdetector.command:
+        default: op
+      clientdetector.bypass:
+        default: op
+      clientdetector.notify:
+        default: op
