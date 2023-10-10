@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class ConfigManager {
-    private static final Plugin plugin = ClientDetector.plugin ;
+    private static final Plugin plugin = ClientDetector.getPlugin() ;
     static HashMap<String , File> files = new HashMap<String , File>();
     static HashMap<String , FileConfiguration> configurations = new HashMap<String , FileConfiguration>();
 

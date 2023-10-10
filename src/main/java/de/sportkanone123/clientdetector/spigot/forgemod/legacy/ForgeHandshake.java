@@ -36,8 +36,8 @@ public class ForgeHandshake {
     //          ║          ║ FML protocol Version ║	Byte	      ║ Determined from NetworkRegistery. Currently 2.
     //          ║          ║ Override dimension   ║ Optional Int  ║ Only sent if protocol version is greater than 1.
     public static void sendServerHello(Player player, String channel){
-        WrapperPlayServerPluginMessage costumPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) 0,(byte) 2,(byte) 0,(byte) 0,(byte) 0,(byte) 0 });
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, costumPayload);
+        WrapperPlayServerPluginMessage customPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) 0,(byte) 2,(byte) 0,(byte) 0,(byte) 0,(byte) 0 });
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, customPayload);
     }
 
 
@@ -47,8 +47,8 @@ public class ForgeHandshake {
     //          ║          ║ Number of mods       ║	Varint	      ║ Number of mods below
     //          ║          ║ Mods (name+version)  ║	List(Str,Str) ║
     public static void sendModList(Player player, String channel){
-        WrapperPlayServerPluginMessage costumPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) 2,(byte) 0,(byte) 0,(byte) 0,(byte) 0 });
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, costumPayload);
+        WrapperPlayServerPluginMessage customPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) 2,(byte) 0,(byte) 0,(byte) 0,(byte) 0 });
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, customPayload);
     }
 
 
@@ -57,8 +57,8 @@ public class ForgeHandshake {
     // FML|HS	║ Both     ║ Discriminator        ║	Byte	      ║ Always -1 (255) for HandshakeAck
     //          ║          ║ Phase                ║	Byte	      ║ The current phase, which is the ordinal (0-indexed) in the FMLHandshakeClientState or FMLHandshakeServerState enums (if the server is sending it, it is in the ServerState enum, and if the client is sending it, it is the ClientState enum).
     public static void sendHandshakeAck(Player player, Byte phase, String channel){
-        WrapperPlayServerPluginMessage costumPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) -1, phase});
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, costumPayload);
+        WrapperPlayServerPluginMessage customPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) -1, phase});
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, customPayload);
     }
 
 
@@ -66,8 +66,8 @@ public class ForgeHandshake {
     //══════════╬══════════╬══════════════════════╬═══════════════╬════════════
     // FML|HS	║ Client   ║ Discriminator        ║	Byte	      ║ Always -2 (254) for HandshakeReset
     public static void sendHandshakeReset(Player player, String channel){
-        WrapperPlayServerPluginMessage costumPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) -2,(byte) 0 });
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, costumPayload);
+        WrapperPlayServerPluginMessage customPayload = new WrapperPlayServerPluginMessage(channel,  new byte[] {(byte) -2,(byte) 0 });
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, customPayload);
     }
 
     public static void sendHandshake(Player player){
@@ -77,8 +77,8 @@ public class ForgeHandshake {
                 sendServerHello(player, "FML|HS");
                 sendModList(player, "FML|HS");
             }
-        }catch (ClassCastException e){
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
+        }catch (ClassCastException ignored){
+            //Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
         }
     }
 }

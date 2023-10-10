@@ -79,6 +79,10 @@ alerts:
   notificationPermission: 'clientdetector.notify'
   #Should vanilla join/leave messages be disabled? [OPTIONS: 'true'/'false', PLACEHOLDERS: none, DEFAULT:'false']
   disablevanillamessages: false
+  #ClansLite update system
+plugin-update-notifications:
+  #Do you want to enable in game plugin update notifications? (Permission:'clanslite.update'). [Default value: true]
+  enabled: true
 
 
 #  ┌─────────────────────────────┐
@@ -98,6 +102,7 @@ forge:
   #Should forge mod detection be enabled for newer(1.13+) versions? [OPTIONS: 'true'/'false', PLACEHOLDERS: none, DEFAULT:'true']
   enableNewerVersionDetection: true
   #Should the plugin send a "fake" handshake, this is required to get the modlist of a forge player. [OPTIONS: 'true'/'false', PLACEHOLDERS: none, DEFAULT:'true']
+  #NOTE: This setting is unstable on 1.17+ and will be disabled automatically on startup.
   simulateForgeHandshake: true
 
   #List of players that will bypass all forge punishments. [OPTIONS: 'anyList', PLACEHOLDERS: none, DEFAULT: [- examplePlayer]]
@@ -169,6 +174,7 @@ hackdetector:
 
   antifastmath:
     #ClienDetector can check if a player is using FastMath by analysing his movement. [OPTIONS: 'true'/'false', PLACEHOLDERS: none, DEFAULT:'false']
+    #NOTE: This setting may prevent users from joining when using an Optifine client also!
     enableAntiFastMath: false
     #If FastMath is not detected set this Integer higher (min: 1, max: 50) [OPTIONS: 'anyInteger', PLACEHOLDERS: none, DEFAULT:'20']
     checkAfterCounts: 20

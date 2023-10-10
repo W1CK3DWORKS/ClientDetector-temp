@@ -47,13 +47,12 @@ public class PlayerListener implements Listener {
         if (ClientDetector.getFloodgateApi() != null){
             if (ClientDetector.getFloodgateApi().isFloodgatePlayer(event.getPlayer().getUniqueId())){
                 ClientDetector.connectedBedrockPlayers.put(event.getPlayer().getUniqueId(), event.getPlayer().getName());
-                foliaLib.getImpl().runAsync(() -> {
-                   Bukkit.getPluginManager().callEvent(new BedrockPlayerDetectedEvent(true, event.getPlayer(), event.getPlayer().getUniqueId()));
-                });
+                foliaLib.getImpl().runAsync((task) ->
+                   Bukkit.getPluginManager().callEvent(new BedrockPlayerDetectedEvent(true, event.getPlayer(), event.getPlayer().getUniqueId())));
             }
         }
 
-        if (ClientDetector.plugin.getConfig().getBoolean("forge.simulateForgeHandshake") && !ClientDetector.forgeMods.containsKey(event.getPlayer().getUniqueId()))
+        if (ClientDetector.getPlugin().getConfig().getBoolean("forge.simulateForgeHandshake") && !ClientDetector.forgeMods.containsKey(event.getPlayer().getUniqueId()))
             ForgeHandshake.sendHandshake(event.getPlayer());
 
         de.sportkanone123.clientdetector.spigot.forgemod.newerversion.ForgeHandler.handleJoin(event.getPlayer());
@@ -66,7 +65,7 @@ public class PlayerListener implements Listener {
             event.getPlayer().sendMessage("§8 §8 §1 §3 §3 §7 §8 ");
 
 
-        if (ClientDetector.plugin.getConfig().getBoolean("client.enableMinecraftVersionDetection")) {
+        if (ClientDetector.getPlugin().getConfig().getBoolean("client.enableMinecraftVersionDetection")) {
             ClientDetector.mcVersion.put(event.getPlayer().getUniqueId(), PacketEvents.getAPI().getPlayerManager().getClientVersion(event.getPlayer()).name().replace("V_", "").replaceAll("_", "."));
         }
 
@@ -79,9 +78,8 @@ public class PlayerListener implements Listener {
             List<String> toRemove = new ArrayList<>();
             for (String string : ClientDetector.playerCommandsQueue.get(event.getPlayer().getUniqueId())) {
                 toRemove.add(string);
-                foliaLib.getImpl().runNextTick(() -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), string);
-                });
+                foliaLib.getImpl().runNextTick((task) ->
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), string));
             }
             ClientDetector.playerCommandsQueue.get(event.getPlayer().getUniqueId()).removeAll(toRemove);
         }

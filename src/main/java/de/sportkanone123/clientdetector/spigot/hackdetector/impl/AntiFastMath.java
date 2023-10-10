@@ -86,9 +86,8 @@ public class AntiFastMath {
 
                         if(ConfigManager.getConfig("config").getBoolean("hackdetector.antifastmath.enablePunishment")){
                             if(!player.hasPermission("clientdetector.bypass")){
-                                foliaLib.getImpl().runNextTick(() -> {
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("config").getString("hackdetector.antifastmath.punishCommand").replace("%prefix%", ConfigManager.getConfig("message").getString("prefix")).replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString())));
-                                });
+                                foliaLib.getImpl().runNextTick((task) ->
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig("config").getString("hackdetector.antifastmath.punishCommand").replace("%prefix%", ConfigManager.getConfig("message").getString("prefix")).replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()))));
                             }
                         }
                     }

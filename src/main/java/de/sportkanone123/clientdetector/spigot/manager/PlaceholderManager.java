@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class PlaceholderManager extends PlaceholderExpansion {
-    static Plugin plugin = ClientDetector.plugin;
+    static Plugin plugin = ClientDetector.getPlugin();
 
     public boolean persist() {
         return true;

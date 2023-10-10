@@ -78,12 +78,8 @@ public class ForgeHandler {
             for(String forgeMod : nameToModlist.get(player.getName()).getMods())
                 de.sportkanone123.clientdetector.spigot.forgemod.ForgeHandler.handleDetection(player, forgeMod);
 
-            foliaLib.getImpl().runAsync(new Runnable() {
-                @Override
-                public void run() {
-                    Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(true, player, nameToModlist.get(player.getName())));
-                }
-            });
+            foliaLib.getImpl().runAsync((task) ->
+                    Bukkit.getPluginManager().callEvent(new ForgeModlistDetectedEvent(true, player, nameToModlist.get(player.getName()))));
         }
     }
 

@@ -146,8 +146,8 @@ public class Badlion {
         }
 
 
-        WrapperPlayServerPluginMessage costumPayload = new WrapperPlayServerPluginMessage("badlion:mods",  GSON.toJson(modsDisallowed).getBytes());
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, costumPayload);
+        WrapperPlayServerPluginMessage customPayload = new WrapperPlayServerPluginMessage("badlion:mods",  GSON.toJson(modsDisallowed).getBytes());
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, customPayload);
     }
 
     private static class DisallowedMods {

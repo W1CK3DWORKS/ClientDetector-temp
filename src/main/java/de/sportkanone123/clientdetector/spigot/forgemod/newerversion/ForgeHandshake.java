@@ -29,8 +29,8 @@ public class ForgeHandshake {
         try {
             WrapperLoginServerPluginRequest wrappedPacketLoginOutCustomPayload = new WrapperLoginServerPluginRequest(/*Random ID*/111111, "fml:handshake", new byte[] { 1, 0, 0, 0 });
             PacketEvents.getAPI().getPlayerManager().sendPacket(channel, wrappedPacketLoginOutCustomPayload);
-        }catch (ClassCastException e){
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
+        }catch (ClassCastException ignored){
+            //Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&3ClientDetector&7] &4(ERROR) &aClassCastException thrown while getting forge mod list from connecting player. This error is harmless and safe to ignore :)"));
         }
     }
 }

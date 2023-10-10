@@ -37,7 +37,7 @@ public class PluginMessageProcessor {
     public static void handlePluginMessage(Player player, String channel, byte[] data){
         byte[] customData = new String(data, StandardCharsets.UTF_8).replace("(Velocity)", "").getBytes(StandardCharsets.UTF_8);
 
-        if(ClientDetector.plugin.getConfig().getBoolean("mods.enableModDetection")){
+        if(ClientDetector.getPlugin().getConfig().getBoolean("mods.enableModDetection")){
             for(Mod mod : ClientDetector.MODS){
                 if(mod.isMod(channel, customData)){
                     if(ClientDetector.playerMods.get(player.getUniqueId()) == null)
@@ -45,9 +45,8 @@ public class PluginMessageProcessor {
 
                     ClientDetector.playerMods.get(player.getUniqueId()).add(mod.getModName());
 
-                    foliaLib.getImpl().runAsync(() -> {
-                        Bukkit.getPluginManager().callEvent(new ModDetectedEvent(true, player, mod.getModName()));
-                    });
+                    foliaLib.getImpl().runAsync((task) ->
+                        Bukkit.getPluginManager().callEvent(new ModDetectedEvent(true, player, mod.getModName())));
 
                     AlertsManager.handleModlistDetection(player, mod.getModName());
 

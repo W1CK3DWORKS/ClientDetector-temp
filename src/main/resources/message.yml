@@ -84,3 +84,14 @@ hackdetector:
   antifastmath:
     #Message if player is using FastMath. [OPTIONS: "anyString", PLACEHOLDERS: ['%prefix%', '%player_name%', '%player_uuid%'], DEFAULT: "%prefix% &c%player_name% &7is using &cFastMath!"]
     usingfastmath: "%prefix% &c%player_name% &7is using &cFastMath!"
+
+#Update Notification
+update-check-failure: "&7[&3ClientDetector&7]: &4Unable to check for updates! - &c"
+update-available:
+  1: "&4*-------------------------------------------*"
+  2: "&7[&3ClientDetector&7]: &cA new version is available!"
+  3: "&4*-------------------------------------------*"
+no-update-available:
+  1: "&a*-------------------------------------------*"
+  2: "&7[&3ClientDetector&7]: &aPlugin is up to date!"
+  3: "&a*-------------------------------------------*"

@@ -35,3 +35,5 @@ permissions:
         default: op
       clientdetector.notify:
         default: op
+      clientdetector.update:
+        default: op

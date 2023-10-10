@@ -105,10 +105,10 @@ public class Mod {
         for(String str : this.channel) {
             if(PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_13)){
                 if(str.contains(":")){
-                    Bukkit.getMessenger().registerIncomingPluginChannel(ClientDetector.plugin, str, new PluginMessageListener());
+                    Bukkit.getMessenger().registerIncomingPluginChannel(ClientDetector.getPlugin(), str, new PluginMessageListener());
                 }
             }else{
-                Bukkit.getMessenger().registerIncomingPluginChannel(ClientDetector.plugin, str, new PluginMessageListener());
+                Bukkit.getMessenger().registerIncomingPluginChannel(ClientDetector.getPlugin(), str, new PluginMessageListener());
             }
         }
     }

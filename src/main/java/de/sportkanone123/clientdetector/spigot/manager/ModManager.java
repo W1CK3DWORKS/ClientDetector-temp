@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class ModManager {
 
@@ -54,16 +53,17 @@ public class ModManager {
         if(ConfigManager.getConfig("config").getBoolean("mods.enableWhitelist")){
             if(ConfigManager.getConfig("config").get("mods.whitelistedMods") != null) {
                 List<String> whitelist = (ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedMods");
-                if ((!whitelist.contains(mod) && !whitelist.contains(mod.toLowerCase(Locale.ROOT))) && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())) {
-                    if(player.isOnline()){
-                        foliaLib.getImpl().runLater(() -> {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
-                        }, 200L, TimeUnit.MILLISECONDS);
-                    }else{
-                        if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
-                            ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
+                if (whitelist != null){
+                    if ((!whitelist.contains(mod) && !whitelist.contains(mod.toLowerCase(Locale.ROOT))) && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())) {
+                        if(player.isOnline()){
+                            foliaLib.getImpl().runNextTick((task) ->
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString())));
+                        }else{
+                            if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
+                                ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
 
-                        ClientDetector.playerCommandsQueue.get(player.getUniqueId()).add(ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                            ClientDetector.playerCommandsQueue.get(player.getUniqueId()).add(ConfigManager.getConfig("config").getString("mods.punishCommandWhitelist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                        }
                     }
                 }
             }
@@ -71,17 +71,18 @@ public class ModManager {
 
         if(ConfigManager.getConfig("config").getBoolean("mods.enableBlacklist")){
             if(ConfigManager.getConfig("config").get("mods.blacklistedMods") != null){
-                List<String> blacklist = (ArrayList<String>) ClientDetector.plugin.getConfig().get("mods.blacklistedMods");
-                if((blacklist.contains(mod) || blacklist.contains(mod.toLowerCase(Locale.ROOT)))  && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())){
-                    if(player.isOnline()){
-                        foliaLib.getImpl().runLater(() -> {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
-                        }, 200L, TimeUnit.MILLISECONDS);
-                    }else{
-                        if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
-                            ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
+                List<String> blacklist = (ArrayList<String>) ClientDetector.getPlugin().getConfig().get("mods.blacklistedMods");
+                if (blacklist != null){
+                    if((blacklist.contains(mod) || blacklist.contains(mod.toLowerCase(Locale.ROOT)))  && !player.hasPermission("clientdetector.bypass") && !((ArrayList<String>) ConfigManager.getConfig("config").get("mods.whitelistedPlayers")).contains(player.getName())){
+                        if(player.isOnline()){
+                            foliaLib.getImpl().runNextTick((task) ->
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString())));
+                        }else{
+                            if(ClientDetector.playerCommandsQueue.get(player.getUniqueId()) == null)
+                                ClientDetector.playerCommandsQueue.put(player.getUniqueId(), new ArrayList<>());
 
-                        ClientDetector.playerCommandsQueue.get(player.getUniqueId()).add(ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                            ClientDetector.playerCommandsQueue.get(player.getUniqueId()).add(ConfigManager.getConfig("config").getString("mods.punishCommandBlacklist").replace("%player_name%", player.getName()).replace("%mod_name%", mod).replace("%player_uuid%", player.getUniqueId().toString()));
+                        }
                     }
                 }
             }

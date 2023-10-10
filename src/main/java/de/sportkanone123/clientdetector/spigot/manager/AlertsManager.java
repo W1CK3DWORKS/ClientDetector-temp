@@ -69,9 +69,8 @@ public class AlertsManager {
                 if(ClientDetector.playerClient.get(player.getUniqueId()) != null)
                     ClientManager.handleDetection(player, ClientDetector.playerClient.get(player.getUniqueId()));
 
-                foliaLib.getImpl().runAsync(() -> {
-                    Bukkit.getPluginManager().callEvent(new ClientDetectedEvent(true, player, ClientDetector.playerClient.get(player.getUniqueId())));
-                });
+                foliaLib.getImpl().runAsync((task) ->
+                    Bukkit.getPluginManager().callEvent(new ClientDetectedEvent(true, player, ClientDetector.playerClient.get(player.getUniqueId()))));
 
                 if(ClientDetector.playerClient.get(player.getUniqueId()) != null){
                     if(ConfigManager.getConfig("config").getBoolean("discord.limitNotifications") == true) {

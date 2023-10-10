@@ -186,7 +186,7 @@ public class MetricsManager {
             }
             // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the Bukkit scheduler
             // Don't be afraid! The connection to the bStats server is still async, only the stats collection is sync ;)
-            foliaLib.getImpl().runNextTick(this::submitData);
+            foliaLib.getImpl().runNextTick((task) -> submitData());
         };
 
         // Many servers tend to restart at a fixed time at xx:00 which causes an uneven distribution of requests on the

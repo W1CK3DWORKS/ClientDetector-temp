@@ -32,12 +32,12 @@ public class BungeeManager {
     public String placeholder = "@@";
 
     private void sync(String string, Player player){
-        player.sendPluginMessage(ClientDetector.plugin, "cd:bungee", string.getBytes(StandardCharsets.UTF_8));
+        player.sendPluginMessage(ClientDetector.getPlugin(), "cd:bungee", string.getBytes(StandardCharsets.UTF_8));
     }
 
     private void sync(String string){
         if(Bukkit.getOnlinePlayers().iterator().hasNext()){
-            Bukkit.getOnlinePlayers().iterator().next().sendPluginMessage(ClientDetector.plugin, "cd:bungee", string.getBytes(StandardCharsets.UTF_8));
+            Bukkit.getOnlinePlayers().iterator().next().sendPluginMessage(ClientDetector.getPlugin(), "cd:bungee", string.getBytes(StandardCharsets.UTF_8));
         }
     }
 
