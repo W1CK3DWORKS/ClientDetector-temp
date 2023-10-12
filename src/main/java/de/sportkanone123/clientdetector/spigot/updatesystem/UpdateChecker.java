@@ -7,12 +7,12 @@ import de.sportkanone123.clientdetector.spigot.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.util.Consumer;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class UpdateChecker {
 

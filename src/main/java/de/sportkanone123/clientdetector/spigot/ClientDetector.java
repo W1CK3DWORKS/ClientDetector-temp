@@ -118,8 +118,8 @@ public class ClientDetector extends JavaPlugin {
         getCommand("forge").setExecutor(new Command());
         getCommand("mods").setExecutor(new Command());
 
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ClientControl(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        this.getServer().getPluginManager().registerEvents(new ClientControl(), this);
         this.getServer().getPluginManager().registerEvents(new JoinEvent(), this);
 
         if(ConfigManager.getConfig("config").getBoolean("hackdetector.chatexploit.enableChatExploit") || ConfigManager.getConfig("config").getBoolean("hackdetector.antifastmath.enableAntiFastMath"))
@@ -192,7 +192,6 @@ public class ClientDetector extends JavaPlugin {
                 console.sendMessage(ColorUtils.translateColorCodes(ConfigManager.getConfig("message").getString("update-available.3")));
             }
         });
-
     }
 
     @Override
