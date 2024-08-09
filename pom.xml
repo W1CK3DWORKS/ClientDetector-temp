@@ -48,10 +48,10 @@
                             <pattern>com.tcoded.folialib</pattern>
                             <shadedPattern>de.sportkanone123.clientdetector.spigot.folialib</shadedPattern>
                         </relocation>
-                        <relocation>
+                        <!--relocation>
                             <pattern>com.github.retrooper.packetevents</pattern>
                             <shadedPattern>de.sportkanone123.clientdetector.spigot.packetevents</shadedPattern>
-                        </relocation>
+                        </relocation-->
                     </relocations>
                 </configuration>
                 <executions>
@@ -128,10 +128,16 @@
             <version>1.1.1</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>com.github.retrooper.packetevents</groupId>
             <artifactId>spigot</artifactId>
             <version>2.2.0</version>
+        </dependency-->
+        <dependency>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents-spigot</artifactId>
+            <version>2.4.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
