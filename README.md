@@ -13,7 +13,7 @@ This project is licensed under the GPLv3 License - see the [LICENSE](https://git
 ### Additional Information
 ClientDetector uses the PacketEvents API. Check it out here: https://github.com/retrooper/packetevents
 
-## Clients
+### Clients
 * "Vanilla (Undetectable)" - This includes Besdrock detection under this heading. (This may change)
 * "Forge"
 * "5zig Mod"
