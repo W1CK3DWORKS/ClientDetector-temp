@@ -156,6 +156,10 @@ discord:
   disableEmbedFooter: false
   #Should only important notifications be sent to the discord? [OPTIONS: 'true'/'false', PLACEHOLDERS: none, DEFAULT:'false']
   limitNotifications: false
+  avatarServiceURLPrefix: "https://minotar.net/avatar/"
+  avatarServiceUseUUIDs: false # if true, UUID will be used instead of username
+  footerText: "Check out ClientDetctor on SpigotMC: https://www.spigotmc.org/resources/clientdetector.90375/"
+  footerIcon: "https://www.spigotmc.org/data/resource_icons/90/90375.jpg?1616258526"
 
 
 #  ┌─────────────────────────────┐
