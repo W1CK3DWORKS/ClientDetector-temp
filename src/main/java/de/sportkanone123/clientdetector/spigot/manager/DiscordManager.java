@@ -51,15 +51,18 @@ public class DiscordManager {
                         .setTitle(ConfigManager.getConfig("config").getString("discord.embedTitle").replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()).replace("%client_name%", clientName).replace("%line_break%", "\n"))
                         .setDescription(ConfigManager.getConfig("config").getString("discord.embedMessage").replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()).replace("%client_name%", clientName).replace("%line_break%", "\n"))
                         .setColor(Color.LIGHT_GRAY)
-                        .setThumbnail("https://crafatar.com/avatars/" + player.getUniqueId())
-                        .setFooter("Check out ClientDetctor on SpigotMC: https://www.spigotmc.org/resources/clientdetector.90375/", "https://www.spigotmc.org/data/resource_icons/90/90375.jpg?1616258526"));
+                        //.setThumbnail("https://crafatar.com/avatars/" + player.getUniqueId())
+                        .setThumbnail(ConfigManager.getConfig("config").getString("discord.avatarServiceURLPrefix") + (ConfigManager.getConfig("config").getBoolean("discord.avatarServiceUseUUIDs") ? player.getUniqueId() : player.getName()))
+                        //.setFooter("Check out ClientDetctor on SpigotMC: https://www.spigotmc.org/resources/clientdetector.90375/", "https://www.spigotmc.org/data/resource_icons/90/90375.jpg?1616258526"));
+                        .setFooter(ConfigManager.getConfig("config").getString("discord.footerText"), ConfigManager.getConfig("config").getString("discord.footerIcon")));
 
             }else{
                 webhook.addEmbed(new DiscordWebhook.EmbedObject()
                         .setTitle(ConfigManager.getConfig("config").getString("discord.embedTitle").replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()).replace("%client_name%", clientName).replace("%line_break%", "\n"))
                         .setDescription(ConfigManager.getConfig("config").getString("discord.embedMessage").replace("%player_name%", player.getName()).replace("%player_uuid%", player.getUniqueId().toString()).replace("%client_name%", clientName).replace("%line_break%", "\n"))
                         .setColor(Color.LIGHT_GRAY)
-                        .setThumbnail("https://crafatar.com/avatars/" + player.getUniqueId()));
+                        //.setThumbnail("https://crafatar.com/avatars/" + player.getUniqueId()));
+                        .setThumbnail(ConfigManager.getConfig("config").getString("discord.avatarServiceURLPrefix") + (ConfigManager.getConfig("config").getBoolean("discord.avatarServiceUseUUIDs") ? player.getUniqueId() : player.getName()))
 
             }
 
